@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDGs 커넥션 퀴즈 부루마블</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            touch-action: manipulation;
+            background-color: #ffffff;
+            color: #334155;
+        }
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(11, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            gap: 5px;
+            width: 100%;
+            max-width: 1400px;
+            aspect-ratio: 11 / 8;
+            margin: auto;
+            padding: 12px;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .square {
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.02);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 2rem;
+            color: #334155;
+            padding: 4px;
+            word-break: keep-all;
+            min-height: 60px;
+            transition: all 0.2s ease;
+        }
+        
+        .s0 { grid-column: 1 / 2; grid-row: 1 / 2; } .s1 { grid-column: 2 / 3; grid-row: 1 / 2; }
+        .s2 { grid-column: 3 / 4; grid-row: 1 / 2; } .s3 { grid-column: 4 / 5; grid-row: 1 / 2; }
+        .s4 { grid-column: 5 / 6; grid-row: 1 / 2; } .s5 { grid-column: 6 / 7; grid-row: 1 / 2; }
+        .s6 { grid-column: 7 / 8; grid-row: 1 / 2; } .s7 { grid-column: 8 / 9; grid-row: 1 / 2; }
+        .s8 { grid-column: 9 / 10; grid-row: 1 / 2; } .s9 { grid-column: 10 / 11; grid-row: 1 / 2; }
+        .s10 { grid-column: 11 / 12; grid-row: 1 / 2; } .s11 { grid-column: 11 / 12; grid-row: 2 / 3; }
+        .s12 { grid-column: 11 / 12; grid-row: 3 / 4; } .s13 { grid-column: 11 / 12; grid-row: 4 / 5; }
+        .s14 { grid-column: 11 / 12; grid-row: 5 / 6; } .s15 { grid-column: 11 / 12; grid-row: 6 / 7; }
+        .s16 { grid-column: 11 / 12; grid-row: 7 / 8; } .s17 { grid-column: 11 / 12; grid-row: 8 / 9; }
+        .s18 { grid-column: 10 / 11; grid-row: 8 / 9; } .s19 { grid-column: 9 / 10; grid-row: 8 / 9; }
+        .s20 { grid-column: 8 / 9; grid-row: 8 / 9; } .s21 { grid-column: 7 / 8; grid-row: 8 / 9; }
+        .s22 { grid-column: 6 / 7; grid-row: 8 / 9; } .s23 { grid-column: 5 / 6; grid-row: 8 / 9; }
+        .s24 { grid-column: 4 / 5; grid-row: 8 / 9; } .s25 { grid-column: 3 / 4; grid-row: 8 / 9; }
+        .s26 { grid-column: 2 / 3; grid-row: 8 / 9; } .s27 { grid-column: 1 / 2; grid-row: 8 / 9; }
+        .s28 { grid-column: 1 / 2; grid-row: 7 / 8; } .s29 { grid-column: 1 / 2; grid-row: 6 / 7; }
+        .s30 { grid-column: 1 / 2; grid-row: 5 / 6; } .s31 { grid-column: 1 / 2; grid-row: 4 / 5; }
+        .s32 { grid-column: 1 / 2; grid-row: 3 / 4; } .s33 { grid-column: 1 / 2; grid-row: 2 / 3; }
+
+        .center-area {
+            grid-column: 2 / 11;
+            grid-row: 2 / 8;
+            background-color: #f0fdf4;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            gap: 1rem;
+        }
+
+        .player-token {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            z-index: 10;
+            transition: all 0.2s ease-in-out;
+            bottom: 6px;
+            left: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .square { font-size: 0.65rem; min-height: 50px; }
+            .player-token { width: 20px; height: 20px; }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 py-10">
+
+    <header class="w-full mb-6">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3 border-b-4 border-[#52b017]">
+            <a href="SDGs 메인.html" class="text-3xl font-bold text-[#595959]">Connect</a>
+            <div class="flex items-center space-x-6 text-lg font-medium">
+                <a href="SDGs란.html" class="text-gray-500 hover:text-black">SDGs란?</a>
+                <a href="SDGs 보드게임(베네핏 수정_1112).html" class="text-[#52b017] hover:text-black font-bold">SDGs 보드게임</a>
+                <a href="SDGs 아카이빙.html" class="text-gray-500 hover:text-black">SDGs 아카이빙</a>
+                <a href="어바웃 어스.html" class="text-gray-500 hover:text-black">About US</a>
+            </div>
+        </nav>
+    </header>
+
+    <div id="game-container" class="w-full max-w-7xl mx-auto">
+        
+        <div id="game-board">
+            
+            <div class="center-area">
+                <div id="dice-container" class="text-center">
+                    <div id="dice-result" class="text-8xl font-bold mb-4 text-gray-700">🎲</div>
+                    <button id="roll-dice-btn" class="bg-[#52b017] hover:bg-[#52b017] text-white font-bold py-3 px-8 rounded-full text-2xl shadow-lg transform transition-all duration-150 ease-in-out hover:scale-105 active:scale-95">
+                        주사위 굴리기
+                    </button>
+                </div>
+                <p id="game-message" class="text-xl font-semibold text-[#52b017] h-8">주사위를 굴려주세요!</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-green-50 rounded-2xl shadow-xl p-8 w-full max-w-2xl">
+            <div class="flex items-start space-x-3">
+                <span class="text-3xl font-bold text-gray-500">Q.</span>
+                <p id="quiz-question" class="text-xl text-gray-800 mb-6">퀴즈 예시입니다.</p>
+            </div>
+            <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                </div>
+            <a id="quiz-hint-link" href="#" target="_blank" class="block text-right text-sm text-gray-500 mt-4 hover:underline cursor-pointer">
+                힌트 보러가기
+            </a>
+        </div>
+    </div>
+    
+    <dialog id="result-modal" class="bg-green-50 text-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md text-center backdrop:bg-black backdrop:bg-opacity-50">
+        <h3 id="result-title" class="text-2xl font-bold mb-4"></h3>
+        <p id="result-message" class="text-lg mb-6 whitespace-pre-line"></p>
+        <button id="result-ok-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">확인</button>
+    </dialog>
+
+
+<script>
+    const boardData = [
+        { id: 0, name: "START", type: "start", country: "Global", sdg: 0 },
+        { id: 1, name: "1", type: "quiz", country: "한국", sdg: 4, question: "SDG 4의 핵심 목표로 가장 적절한 것은?", options: ["해양 자원 보호", "모두를 위한 양질의 교육 보장", "도시 온실가스 제로화", "빈곤층 일자리 창출"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 1 },
+        { id: 2, name: "2", type: "quiz", country: "일본", sdg: 11, question: "지속가능한 도시는 다음 중 어느 요소를 포함하는가?", options: ["재난에 강한 도시 구조", "무조건적인 고층 건물 개발"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 3, name: "3", type: "quiz", country: "한국", sdg: 7, question: "SDG 7에서 다루는 주요 내용은?", options: ["지속가능한 에너지 접근", "식량 공급망 관리", "해양 쓰레기 감소"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 4, name: "4", type: "quiz", country: "일본", sdg: 2, question: "SDG 2는 다음 중 어느 내용을 포함하는가?", options: ["지속가능한 농업", "도시 쓰레기 처리 기술 개발"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 5, name: "5", type: "quiz", country: "한국", sdg: 3, question: "SDG 3은 신체 건강뿐 아니라 정신건강까지 포함한다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 6, name: "6", type: "quiz", country: "일본", sdg: 1, question: "다음 중 SDG 1이 다루는 ‘빈곤’의 정의와 가장 가까운 것은?", options: ["단순히 돈이 없는 상태", "교육·주거·건강 등 기초적 삶의 조건이 부족한 상태", "단순 주거비 부담 증가"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 7, name: "7", type: "quiz", country: "한국", sdg: 6, question: "SDG 6의 주요 목표는 깨끗한 물과 위생 보장이다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 8, name: "8", type: "quiz", country: "일본", sdg: 5, question: "SDG 5의 목표는?", options: ["여성의 권익 신장과 성평등", "스마트 농업 기술 개선", "청년 고용률 향상", "수자원 확보"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 9, name: "9", type: "quiz", country: "한국", sdg: 12, question: "일본 야마야마 기업의 ‘규격 외 과일 업사이클 제품’은 식품 폐기 감소에 기여한다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 10, name: "10", type: "quiz", country: "일본", sdg: 10, question: "불평등은 개인 능력의 문제가 아니라 구조적 문제로 볼 수 있다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 11, name: "11", type: "quiz", country: "한국", sdg: 8, question: "SDG 8에서 강조하는 것은?", options: ["고효율 건물 설계", "포용적 경제성장과 양질의 일자리", "깨끗한 해양 보호"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 12, name: "12", type: "quiz", country: "일본", sdg: 14, question: "SDG 14는 해양 자원을 지속가능하게 이용하는 것을 목표로 한다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 13, name: "13", type: "quiz", country: "한국", sdg: 11, question: "일본 도야마시는 ‘콤팩트 시티’ 정책을 통해 대중교통 중심 도시 모델을 추진하고 있다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 14, name: "14", type: "quiz", country: "일본", sdg: 13, question: "기후변화 대응(SDG 13)이 포함하는 내용은?", options: ["온실가스 감축", "산업 디자인 개선", "국경 간 무역 장벽 감소"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 15, name: "15", type: "quiz", country: "한국", sdg: 16, question: "SDG 16은 평화·정의·강한 제도를 목표로 한다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 16, name: "16", type: "quiz", country: "일본", sdg: 9, question: "SDG 9가 포함하는 요소는 무엇인가?", options: ["산업 혁신", "해양 산성화 대응", "성평등", "식품 손실 관리"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 17, name: "17", type: "quiz", country: "한국", sdg: 17, question: "SDG 17은 다른 목표를 실행하기 위한 파트너십 구축이 핵심이다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 18, name: "18", type: "quiz", country: "일본", sdg: 1, question: "일본의 제로에너지하우스(ZEH)는 SDG 7의 실천 사례이다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 19, name: "19", type: "quiz", country: "한국", sdg: 3, question: "SDG 3에서 강조하는 주요 내용은?", options: ["대중교통 기반 구축", "모든 연령대의 건강한 삶", "고성능 산업 장비 개발"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 20, name: "20", type: "quiz", country: "일본", sdg: 5, question: "서울 중구의 ‘안심이 앱’은 성평등·안전 환경 구축과 관련이 있다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 21, name: "21", type: "quiz", country: "한국", sdg: 15, question: "일본 오쓰치 지비에 프로젝트가 다루는 핵심 분야는?", options: ["초고층 건물 개발", "사슴 개체 관리와 지역 순환경제", "해양 플라스틱 제거 기술", "도시 교통망 관리"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 22, name: "22", type: "quiz", country: "일본", sdg: 12, question: "오쓰치 지비에 프로젝트는 사슴 개체 수만 조절하는 단일 목적의 정책이다.", options: ["O", "X"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 23, name: "23", type: "quiz", country: "한국", sdg: 12, question: "지속가능한 소비와 생산은 기업과 시민 모두의 참여가 필요하다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 24, name: "24", type: "quiz", country: "일본", sdg: 7, question: "SDG 6의 주요 영역이 아닌 것은?", options: ["수질 개선", "안전한 식수 공급", "대중교통 전기화"], correctIndex: 2, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 25, name: "25", type: "quiz", country: "한국", sdg: 8, question: "SDG 9는 산업 성장만을 목표로 하며 환경은 고려하지 않는다.", options: ["O", "X"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 26, name: "26", type: "quiz", country: "일본", sdg: 1, question: "한양대학교의 ‘미술영재 헤드스타트’ 사례는 어떤 목표와 가장 관련 있는가?", options: ["SDG 1 빈곤퇴치", "SDG 8 일자리", "SDG 12 책임감 있는 소비", "SDG 15 육상생태계"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 27, name: "27", type: "quiz", country: "한국", sdg: 11, question: "도시의 자원순환 장터(세R가게)는 SDG 11 실천의 한 사례이다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 28, name: "28", type: "quiz", country: "일본", sdg: 10, question: "SDG 10에서 다루는 불평등 문제는 무엇을 포함하는가?", options: ["단순 소비습관", "사회·경제·정치적 포용", "해양 오염", "태양광 기술 개발"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 29, name: "29", type: "quiz", country: "한국", sdg: 17, question: "SDG 17이 강조하는 협력 방식은?", options: ["개인 간 경쟁 강화", "국제·지역·민간 파트너십", "폐기물 감축 정책"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 30, name: "30", type: "quiz", country: "일본", sdg: 13, question: "치바현 이스미시의 학교급식 사례는 어떤 내용과 가장 관련 있는가?", options: ["유기농업 + 지역 식생활 개선", "해양 관광산업 확대", "신재생 에너지 보급"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 31, name: "31", type: "quiz", country: "한국", sdg: 14, question: "기후변화 대응은 교육·도시·산업 등 여러 영역과 연결된다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 32, name: "32", type: "quiz", country: "일본", sdg: 15, question: "다음 중 SDG 14의 목표가 아닌 것은?", options: ["해양오염 감소", "산림 복원", "해양 생태계 보호", "지속가능한 어업"], correctIndex: 1, benefitMoves: 0, penaltyMoves: 2 },
+        { id: 33, name: "33", type: "quiz", country: "한국", sdg: 16, question: "양질의 일자리는 노동권 보호를 포함한다.", options: ["O", "X"], correctIndex: 0, benefitMoves: 0, penaltyMoves: 2 },
+    ];
+    const TOTAL_SQUARES = boardData.length;
+
+    const pastelColors = [
+        '#fad2e1', '#e2f0cb', '#c0e7f3', '#fff5c0', '#d8d1f3', '#ffdcc1',
+    ];
+    
+    let player = { id: 1, name: '플레이어', position: 0, hasMovedOffStart: false };
+    let gameActive = true;
+    
+    const board = document.getElementById('game-board');
+    const rollDiceBtn = document.getElementById('roll-dice-btn');
+    const diceResultEl = document.getElementById('dice-result');
+    const gameMessageEl = document.getElementById('game-message');
+    
+    const quizModal = document.getElementById('quiz-modal');
+    const quizQuestionEl = document.getElementById('quiz-question');
+    const quizOptionsEl = document.getElementById('quiz-options');
+    const quizHintLinkEl = document.getElementById('quiz-hint-link'); 
+    
+    const resultModal = document.getElementById('result-modal');
+    const resultTitleEl = document.getElementById('result-title');
+    const resultMessageEl = document.getElementById('result-message');
+    
+    function generateCoupon() {
+        const coupons = [
+            { text: "10% 할인 쿠폰", details: "15,000원 이상 구매 시" },
+            { text: "20% 할인 쿠폰", details: "25,000원 이상 구매 시" },
+            { text: "30% 할인 쿠폰", details: "35,000원 이상 구매 시" }
+        ];
+        const randomCoupon = coupons[Math.floor(Math.random() * coupons.length)];
+        
+        const p = () => {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 4; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        };
+        const couponCode = `${p()}-${p()}-${p()}-${p()}`;
+        
+        return { ...randomCoupon, code: couponCode };
+    }
+
+
+    function createSimplifiedBoard() {
+        boardData.forEach((square, index) => {
+            const squareEl = document.createElement('div');
+            squareEl.id = `square-${index}`;
+            squareEl.className = `square s${index}`;
+            
+            const nameEl = document.createElement('span');
+            nameEl.className = 'font-semibold text-gray-700 px-1';
+            nameEl.textContent = square.name;
+
+            if (square.type === 'start') {
+                squareEl.style.backgroundColor = '#f0fdf4';
+                nameEl.textContent = "🏁 START";
+                nameEl.style.color = '#15803d';
+                nameEl.style.fontWeight = '700';
+            } else {
+                squareEl.style.backgroundColor = pastelColors[(index - 1) % pastelColors.length];
+            }
+            
+            squareEl.appendChild(nameEl);
+            board.appendChild(squareEl);
+        });
+
+        const playerToken = document.createElement('div');
+        playerToken.id = 'player-token';
+        playerToken.className = 'player-token';
+        playerToken.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-full h-full text-green-500" style="filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));">
+                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+        `;
+        document.getElementById('square-0').appendChild(playerToken);
+    }
+
+    function animateMove(startPosition, steps) {
+        return new Promise(async (resolve) => {
+            const token = document.getElementById('player-token');
+            if (!token) return resolve({ finalPosition: startPosition, passedStart: false });
+
+            let currentPos = startPosition;
+            const direction = steps > 0 ? 1 : -1;
+            const totalSteps = Math.abs(steps);
+            const delay = 200;
+            let passedStart = false;
+
+            for (let i = 0; i < totalSteps; i++) {
+                currentPos = (currentPos + direction + TOTAL_SQUARES) % TOTAL_SQUARES;
+                
+                if (direction === 1 && currentPos === 0) {
+                    passedStart = true;
+                }
+                
+                const newSquare = document.getElementById(`square-${currentPos}`);
+                if (newSquare) {
+                    newSquare.appendChild(token);
+                    token.style.bottom = '6px';
+                    token.style.left = '6px';
+                }
+                await new Promise(res => setTimeout(res, delay));
+            }
+            resolve({ finalPosition: currentPos, passedStart: passedStart });
+        });
+    }
+
+    function showQuiz(quiz) {
+        return new Promise((resolve) => {
+            quizQuestionEl.textContent = quiz.question;
+            
+            quizOptionsEl.innerHTML = '';
+            
+            quizHintLinkEl.href = `SDGs${quiz.sdg}.html`; 
+            quizHintLinkEl.target = "_blank"; 
+            
+            quiz.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'bg-white shadow-md hover:shadow-lg text-gray-800 font-semibold py-5 px-6 rounded-2xl transition-all duration-150 text-lg';
+                button.textContent = option;
+                
+                button.addEventListener('click', () => {
+                    quizModal.classList.add('hidden');
+                    const isCorrect = index === quiz.correctIndex;
+                    resolve({
+                        isCorrect: isCorrect,
+                        benefitMoves: quiz.benefitMoves, 
+                        penaltyMoves: quiz.penaltyMoves
+                    });
+                }, { once: true });
+                
+                quizOptionsEl.appendChild(button);
+            });
+            
+            quizModal.classList.remove('hidden');
+        });
+    }
+
+    function showResult(title, message) {
+          return new Promise((resolve) => {
+            let resultOkBtn = document.getElementById('result-ok-btn');
+            if (!resultOkBtn || !resultOkBtn.parentNode) {
+                console.error("Result OK button or its parent not found!");
+                resolve(); 
+                return;
+            }
+            
+            const newOkBtn = resultOkBtn.cloneNode(true);
+            resultOkBtn.parentNode.replaceChild(newOkBtn, resultOkBtn);
+            
+            if (title === "SDGs 탐험을 완료하였습니다!") {
+                resultTitleEl.innerHTML = `<div class="text-6xl mb-4">🏆</div>${title}`;
+                resultMessageEl.textContent = message;
+                newOkBtn.innerHTML = `
+                    <svg class="w-5 h-5 inline-block mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="vertical-align: -4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9H4v5m16 0v-5h-.582m-15.356-2A8.001 8.001 0 0019.418 15H20v-5"></path></svg>
+                    Replay
+                `;
+                newOkBtn.addEventListener('click', () => {
+                    window.location.reload();
+                }, { once: true });
+
+            } else {
+                resultTitleEl.textContent = title;
+                resultMessageEl.textContent = message;
+                newOkBtn.textContent = "확인";
+                newOkBtn.addEventListener('click', () => {
+                    resultModal.close();
+                }, { once: true });
+            }
+            
+            resultModal.showModal();
+            
+            resultModal.addEventListener('close', () => {
+                resolve();
+            }, { once: true });
+        });
+    }
+
+    async function rollDiceAndMove() {
+        if (!gameActive) return;
+        
+        const initialPosition = player.position;
+        
+        gameActive = false;
+        rollDiceBtn.disabled = true;
+        rollDiceBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+        let roll = 1;
+        const diceAnimation = setInterval(() => {
+            roll = Math.floor(Math.random() * 6) + 1;
+            diceResultEl.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][roll - 1];
+        }, 100);
+
+        await new Promise(res => setTimeout(() => {
+            clearInterval(diceAnimation);
+            roll = Math.floor(Math.random() * 6) + 1;
+            diceResultEl.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][roll - 1];
+            res();
+        }, 1000));
+        
+        if (initialPosition === 0 && !player.hasMovedOffStart && roll > 0) {
+            player.hasMovedOffStart = true;
+        }
+        
+        gameMessageEl.textContent = `${roll}칸 이동합니다!`;
+        await new Promise(res => setTimeout(res, 1000));
+
+        const moveResult1 = await animateMove(initialPosition, roll);
+        player.position = moveResult1.finalPosition;
+        let passedStart = moveResult1.passedStart;
+        
+        const square = boardData[player.position];
+        
+        let moveChange = 0;
+
+        if (square.type === 'quiz') {
+            gameMessageEl.textContent = `퀴즈 시간!`;
+            const result = await showQuiz(square);
+            
+            if (result.isCorrect) {
+                moveChange = result.benefitMoves || 0;
+                await showResult("정답입니다!", "멋져요! 🥳");
+            } else {
+                moveChange = -Math.abs(result.penaltyMoves || 2); 
+                await showResult("오답입니다!", `패널티: ${Math.abs(moveChange)}칸 뒤로 이동합니다.`);
+            }
+
+            if (moveChange !== 0) {
+                gameMessageEl.textContent = `결과 적용 중...`;
+                const positionBeforeMove = player.position;
+                const moveResult2 = await animateMove(player.position, moveChange);
+                player.position = moveResult2.finalPosition;
+
+                if (moveChange < 0 && positionBeforeMove < 10 && player.position > 20) {
+                    passedStart = false; 
+                    console.log("Penalty crossed start backwards. Game end cancelled.");
+                }
+                else if (moveResult2.passedStart) { 
+                    passedStart = true; 
+                }
+            }
+            
+        } 
+        
+        let isGameEnd = false;
+        if (player.hasMovedOffStart && passedStart) {
+            isGameEnd = true;
+        }
+
+        if (isGameEnd) {
+            const coupon = generateCoupon();
+            const endMessage = `축하합니다! 랜덤 쿠폰이 발급되었습니다.\n\n${coupon.text}\n(${coupon.details})\n\n코드: ${coupon.code}\n\n* 본 쿠폰 코드는 1 ID당 1회 사용 가능하며,\n1일 1회 발급 가능합니다.\n\n당신을 SDGs 전문가로 임명합니다!`;
+
+            await showResult("SDGs 탐험을 완료하였습니다!", endMessage);
+            
+            gameActive = false;
+            rollDiceBtn.disabled = true;
+            rollDiceBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            gameMessageEl.textContent = '게임이 종료되었습니다.';
+            diceResultEl.textContent = '🏆';
+        } else {
+            gameMessageEl.textContent = '주사위를 굴려주세요.';
+            gameActive = true;
+            rollDiceBtn.disabled = false;
+            rollDiceBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+
+    rollDiceBtn.addEventListener('click', rollDiceAndMove);
+    
+    createSimplifiedBoard();
+
+</script>
+</body>
+</html>

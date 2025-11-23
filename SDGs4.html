@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDGs 상세 - Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #334155;
+        }
+        .image-gallery-container {
+            position: relative;
+            width: 80%; 
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .gallery-main-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            z-index: 10;
+        }
+        .gallery-btn:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .gallery-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .dot.active {
+            background-color: #16a34a; 
+        }
+
+        .prose h2 {
+            color: #15803d;
+            border-bottom: 2px solid #52b017; 
+            padding-bottom: 8px;
+            font-size: 1.75rem;
+            font-weight: 800; 
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex flex-col">
+
+    <header class="w-full mb-6 py-5">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3 border-b-4 border-[#52b017]">
+            <a href="SDGs 메인.html" class="text-3xl font-bold text-[#595959]">Connect</a>
+            <div class="flex items-center space-x-6 text-lg font-medium">
+                <a href="SDGs란.html" class="text-gray-500 hover:text-black">SDGs란?</a>
+                <a href="SDGs 보드게임(베네핏 수정_1112).html" class="text-gray-500 hover:text-black">SDGs 보드게임</a>
+                <a href="sdgs 아카이빙.html" class="text-[#52b017] font-bold hover:text-black">SDGs 아카이빙</a>
+                <a href="어바웃 어스.html" class="text-gray-500 hover:text-black">About US</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="w-full max-w-7xl mx-auto px-4 py-8">
+        
+        <div class="mb-6">
+            <a href="SDGs 아카이빙.html" class="text-green-600 hover:text-green-800 font-semibold transition-colors">
+                &larr; 모든 목표 목록으로 돌아가기
+            </a>
+        </div>
+
+        <article class="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-100">
+            
+            <div class="p-6 md:p-10">
+                <p id="sdg-goal-id" class="text-lg font-semibold mb-1"></p>
+                
+                <h1 id="sdg-goal-name" class="text-4xl font-bold text-gray-900 mb-8"></h1>
+
+                <div class="prose prose-lg max-w-none text-gray-700">
+                    <h2 id="section-1-title"></h2>
+                    <p id="section-1-content"></p>
+
+                    <h2 class="mt-8">키워드</h2>
+                    <ul>
+                        <li><strong>#양질의교육 #환경교육도시 #평생학습 #세대간학습</strong></li>
+                    </ul>
+
+                    <h2 class="mt-8">학습 포인트</h2>
+                    <p>SDG 4는 학교교육뿐 아니라 <strong>평생학습, 환경·시민교육</strong>까지 포함합니다.</p>
+                    <p>한국은 지자체 기반 환경교육·평생교육, 일본은 대학과 지역의 파트너십이 두드러집니다.</p>
+                    
+                    <h2 class="mt-8">한국의 실천 사례</h2>
+                    <p><strong>1. 환경교육도시 지정 및 평생학습관 운영</strong></p>
+                    <p>&nbsp;</p>
+                    <p>한국에서는 일부 지자체가 <strong>환경교육도시</strong>로 지정되어,</p>
+                    <p><strong>지역 기반의 환경·지속가능발전 교육</strong>을 강화하고 있습니다.</p>
+                    <p>&nbsp;</p>
+                    <p>예를 들어, <strong>인천광역시</strong>는</p>
+                    <p>&nbsp;</p>
+                    <p>・해양환경과 관련된 국제적 협력 체계,</p>
+                    <p>・지역 민간단체와 행정의 <strong>긴밀한 네트워크</strong>를 기반으로,</p>
+                    <p>&nbsp;&nbsp;&nbsp;환경교육도시 연례 토론회와 <strong>다양한 프로그램을 운영</strong>하며 <strong>환경교육 인프라</strong>를 구축해왔습니다.</p>
+                    <p>&nbsp;</p>
+                    <p>또한 <strong>경기도 수원시</strong>는 옛 중학교 건물을 재구성하여 ‘수원시 글로벌 평생학습관’을 운영하고 있습니다.</p>
+                    <p>&nbsp;</p>
+                    <p><strong>도봉구와 서산시</strong> 등도 환경교육센터, 체험학습, 공무원 교육 등을 통해 <strong>지속가능발전 관점</strong>이 <strong>생활 속 교육</strong>에 스며들도록 하고 있습니다.</p>
+                    <p>&nbsp;</p>
+                    <p>이곳은 <strong>시민 누구나 배울 수 있는 열린 학습공간</strong>으로, 기후위기, 성인 문해교육 등 <strong>다양한 주제</strong>를 다루며</p>
+                    
+                    <p>&nbsp;</p>
+                    <p><strong>“언제든 배우고, 서로 나누는 시민 학교”</strong>라는 교육 철학을 실천하고 있습니다.  </p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p><strong>2. 현대건설 - 힐스테이트 꿈키움멘토링 봉사단</strong></p>
+                    <p>&nbsp;</p>
+                    <p>・<strong>현대건설</strong>은 청소년과 대학생의 꿈을 함께 키우는 ‘힐스테이트 꿈키움 멘토링 봉사단’을 운영하고 있습니다.</p>
+                    <p>・이 프로그램은 <strong>직원멘토, 대학생멘토, 청소년멘티의 3인 1조</strong>로 구성됩니다.</p>
+                    <p>・<strong>청소년멘티</strong>는 두 멘토를 통해 <strong>학업지도와 진로상담</strong>을 받고, <strong>대학생멘토</strong>는 직원멘토로부터 <strong>사회경험과 실무에 관한 노하우와 취업상담</strong>을 제공받습니다.</p>
+                    <p>&nbsp;</p>
+
+
+                    <div id="korea-gallery" class="image-gallery-container mt-4 not-prose">
+                        <div class="gallery-main-image">
+                            <img src="" alt="한국 사례 이미지" class="gallery-image">
+                        </div>
+                        <button class="gallery-btn prev-btn">&larr;</button>
+                        <button class="gallery-btn next-btn">&rarr;</button>
+                        <div class="gallery-dots"></div>
+                    </div>
+
+                    <h2 class="mt-8">일본의 실천 사례</h2>
+                    <p><strong>가나자와 대학교 – 세대 간 협력을 통한 지속가능한 지역사회 교육</strong></p>
+                    <p>&nbsp;</p>
+                    <p><strong>가나자와 대학교</strong>는 지자체, 유네스코 인증 지역 커뮤니티와 협력하여, <strong>청소년과 노인이 함께 참여하는 세대 간 학습 프로그램</strong>을 운영하고 있습니다.</p>
+                    <p>&nbsp;</p>
+                    <p>・<strong>유네스코 에코파크(생물권 보호구역)와 세계 지질공원</strong> 등을 활용해,</p>
+                    <p>・<strong>지역 자연·환경 자원</strong>을 직접 체험하는 교육과정을 구성하고, 지역 주민과 생활 체험을 공유하면서</p>
+                    <p>・<strong>“회복력 있고 지속가능한 지역사회란 무엇인가”</strong>를 함께 고민하는 커리큘럼을 개발합니다.</p>
+                    <p>&nbsp;</p>
+                    <p>이러한 시도는 대학이 지역 커뮤니티와 협력해</p>
+                    <p>&nbsp;</p>
+                    <p><strong>세대·전문성·지역 자원을 연결</strong>하는 <strong>교육 허브 역할</strong>을 수행하는 사례로 볼 수 있습니다.  </p>
+                    <p>&nbsp;</p>
+                    
+                    <div id="japan-gallery" class="image-gallery-container mt-4 not-prose">
+                        <div class="gallery-main-image">
+                            <img src="" alt="일본 사례 이미지" class="gallery-image">
+                        </div>
+                        <button class="gallery-btn prev-btn">&larr;</button>
+                        <button class="gallery-btn next-btn">&rarr;</button>
+                        <div class="gallery-dots"></div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+<script>
+    const sdgData = [
+         { 
+            id: 1, name: "빈곤퇴치 (No Poverty)", color: "#E5243B", intro: "<strong>모든 곳에서 모든 형태의 빈곤을 종식하는 것</strong>을 목표로 합니다. <br>빈곤은 단순히 돈 부족을 넘어, <strong>교육·보건·주거·사회참여 기회가 제한되는 다차원적 문제</strong>입니다.<br>따라서 빈곤을 줄인다는 것은 최소한 먹고 사는 것을 넘어 <strong>사람이 사람답게 살 수 있는 조건을 보장</strong>하는 일과 연결됩니다.<br> <br> SDG 1은 다른 모든 지속가능발전 목표(교육, 건강, 일자리, 도시 등)가 효과적으로 작동하기 위한 <strong>가장 기본적인 토대</strong>입니다.",
+            koreaImages: ["빈곤퇴치_한양대학교 미술영재 장학사업 전시회.jpg", "빈곤퇴치_한양대 김장나눔 1.jpg", "빈곤퇴치_한양대 김장나눔 2.jpg"],
+            japanImages: ["1빈곤퇴치.png", "1빈곤퇴치2.png",]
+        },
+        { 
+            id: 2, name: "기아종식 (Zero Hunger)", color: "#DDA63A", intro: "<strong>기아를 종식하고, 식량 안보를 확보하며, 영양 상태를 개선하고, 지속가능한 농업을 강화하는 것</strong>을 목표로 합니다. <br>여기에는 충분한 ‘칼로리’만이 아니라 <strong>균형 잡힌 영양</strong>, 특정 집단(아동, 노인, 저소득층)의 <strong>식량 접근성</strong>, 기후변화와 시장 변동 속에서도 안정적인 생산을 유지할 수 있는 <strong>농업 구조</strong>까지 모두 포함됩니다. <br> <br>SDG 2는 단순히 “굶지 않게 하는 것”을 넘어, <strong>안정적으로 생산·분배·소비되는 식량 시스템 전체를 바꾸는 목표</strong>라고 할 수 있습니다.",
+            koreaImages: ["기아종식_요기요.png", "기아종식_NH투자증권.jpg"],
+            japanImages: ["2기아종식_1.jpg", "2기아종식_2.jpg","2기아종식_3.jpg"]
+        },
+        { 
+            id: 3, name: "건강과 웰빙 (Good Health and Well-Being)", color: "#4C9F38", intro: "<strong>모든 연령층을 위한 건강한 삶 보장과 복지 증진</strong>을 목표로 합니다.<br>이 목표는 신체 건강뿐 아니라 <Strong>정신 건강</strong>, 사고·재난 예방, <strong>감염병 대응</strong>, 환경오염으로부터의 보호 등 <strong>매우 폭넓은 영역</strong>을 포괄합니다.<br> <br>SDG 3은 건강을 개인 책임이 아닌 <strong>사회 전체가 함께 만들어야 할 조건</strong>으로 보고 있습니다.",
+            koreaImages: ["건강과웰빙_전국민 마음투자사업.png", "건강과웰빙_전국민마음투자사업 2.jpg"],
+            japanImages: ["3건강웰빙.jpg", "3건강웰빙2.jpg",]
+            
+        },
+        { 
+            id: 4, name: "양질의 교육 (Quality Education)", color: "#C5192D", intro: "<strong>모두를 위한 포용적이고 공평한 양질의 교육 보장</strong>과 <strong>평생학습 기회 증진</strong>을 목표로 합니다.<br>교육은 단순한 학력 향상을 넘어서, 개인의 삶의 질·사회 참여·경제적 자립을 가능하게 만드는 <strong>핵심 기반</strong>입니다.<br> <br>SDG 4는 “교육을 통해 <strong>지속가능발전을 증진할 수 있는 지식과 기술을 습득</strong>하게 한다”는 점을 강조합니다.",
+            koreaImages: ["양질의교육_환경교육도시 지정.jpg", "양질의교육_수원 평생학습관.jpg","양질의교육_현대건설.jpg", "양질의교육_현대건설 2.jpg"],
+            japanImages: ["4양질의교육1.jpg","4양질의교육2.jpg"]
+        },
+        { id: 5, name: "성평등 (Gender Equality)", color: "#FF3A21", intro: "<strong>성평등 달성</strong>과 <strong>모든 여성 및 여아의 권익 신장</strong>을 목표로 합니다.<br>이 목표는 단순히 차별을 없애는 수준을 넘어, 정치·경제·사회 <strong>모든 영역에서 동등한 참여와 리더십을 보장</strong>하는 것이 핵심입니다.<br> <br>SDG 5는 성평등을 개인의 문제가 아닌 <strong>사회 구조 전체의 변화 과제</strong>로 바라봅니다.", 
+        koreaImages: ["성평등_안심사업.png", "성평등_유한킴벌리.jpg"], 
+        japanImages: ["5성평등.jpg","5성평등2.jpg"]
+        
+        },
+
+        { id: 6, name: "깨끗한 물과 위생 (Clean Water and Sanitation)", color: "#26BDE2", intro: "<strong>모두를 위한 물과 위생의 이용 가능성</strong>과 <strong>지속가능한 관리 보장</strong>을 목표로 합니다.<br>이 목표의 핵심은 <strong>깨끗한 식수</strong>와 <strong>안전한 하수처리, 수질오염 관리</strong>, 물 재이용, <strong>수생태계 보호</strong> 등입니다.<br> <br>SDG 6은 물을 단지 자원이라기보다, 인간의 생존·건강·환경·지역 공동체와 직결된 <strong>공공재</strong>로 바라봐야 하는 영역입니다.", 
+        koreaImages: ["깨끗한물_코웨이.png", "깨끗한물_한국수자원공사.png"], 
+        japanImages: ["6깨끗한물.jpg", "6깨끗한물2.jpg"] 
+        },
+       
+        { id: 7, name: "깨끗한 에너지 (Affordable and Clean Energy)", color: "#FCC30B", intro: "<strong>적정한 가격에 신뢰할 수 있고 지속가능한 현대적 에너지에 대한 접근 보장</strong>을 목표로 합니다.<br>이 목표의 핵심은 <strong>석탄·석유 중심의 에너지</strong>에서 <strong>재생에너지·고효율 시스템</strong>으로 전환하는 것입니다.<br> <br>SDG 7은 에너지 전환을 단순히 기술적인 문제가 아닌 <strong>사회 전체 구조 개편 과제</strong>로 바라봅니다.", 
+        koreaImages: ["깨끗한에너지_건물일체형 태양광.jpg", "깨끗한에너지_태양광.jpg"], 
+        japanImages: ["7깨끗한에너지.jpg","7깨끗한에너지2.png"] 
+        },
+       
+        { id: 8, name: "양질의 일자리와 경제 성장 (Decent Work and Economic Growth)", color: "#A21942", intro: "<strong>포용적이고 지속가능한 경제성장</strong>과 <strong>모두를 위한 양질의 일자리 창출</strong>을 목표로 합니다.<br>이 목표는 단순한 <strong>성장률</strong>보다 “누가, 어떤 조건에서 일하고 있는가”를 중요하게 봅니다.<br> <br>SDG 8은 경제 성장의 혜택이 모두에게 돌아가고, 모든 사람이 <strong>안전하고 공정하며 생산적인 노동 환경</strong>에서 일할 수 있도록 보장하는 것을 목표로 합니다.", 
+        koreaImages: ["양질의일자리_에덴복지재단.png", "양질의일자리_굿윌스토어.jpg"], 
+        japanImages: ["8양질의일자리.png", "8양질의일자리2.png"] 
+        },
+       
+        { id: 9, name: "산업·혁신·사회기반시설 (Industry, Innovation and Infrastructure)", color: "#FD6925", intro: "<strong>회복력 있는 사회기반시설 구축, 포용적이고 지속가능한 산업화</strong>, 그리고 <strong>혁신 촉진</strong>을 목표로 합니다.<br>이는 단순한 공장·도로 건설을 넘어, <strong>디지털 인프라</strong>, 연구개발, <strong>친환경 기술, 정보 접근성</strong> 등까지 포함하는 넓은 개념입니다.<br> <br>SDG 9는 지속가능한 미래를 위한 <strong>기술적, 물리적 토대</strong>를 마련하는 데 중점을 둡니다.", 
+        
+        japanImages: ["9산업혁신.png", "9산업혁신2.png"] 
+        },
+       
+        { id: 10, name: "불평등 완화 (Reduced Inequalities)", color: "#DD1367", intro: "<strong>국내 및 국가 간 불평등을 줄이는 것</strong>을 목표로 합니다.<br>불평등은 <strong>소득 격차</strong>뿐 아니라, 나이·성별·장애·이주배경 등으로 인한 <strong>사회·경제·정치적 배제</strong>가 주요 이슈입니다.<br> <br>SDG 10은 불평등을 <strong>구조적 문제</strong>로 인식하고 <strong>정책을 통해 완화</strong>해야 한다는 점을 강조합니다.", 
+        koreaImages: ["불평등완화_기아초록여행.png", "불평등완화_실버택배.jpg", "불평등완화_실버택배 2.jpg"], 
+        japanImages: ["10불평등감소1.jpg","10불평등감소2.jpg"] 
+        },
+       
+        { id: 11, name: "지속가능한 도시와 공동체 (Sustainable Cities and Communities)", color: "#FD9D24", intro: "<strong>포용적이고 안전하며 회복력 있고 지속가능한 도시와 주거지를 만드는 것</strong>을 목표로 합니다.<br>이 목표는 <strong>주택, 교통, 공공공간, 재난 대응, 환경오염, 문화유산 보호</strong> 등 도시 생활과 관련된 모든 영역을 포괄합니다.<br> <br>SDG 11은 도시를 단순히 건물이 모인 곳이 아니라, 모든 시민이 안전하고 편리하게 살 수 있는 <strong>지속가능한 삶의 공간</strong>으로 전환하는 데 중점을 둡니다.", 
+        koreaImages: ["지속가능한도시_녹색나눔장터.jpg", "지속가능한도시_스타벅스.jpg"], 
+        japanImages: ["11지속가능도시.jpg"] 
+        },
+       
+        { id: 12, name: "책임감 있는 소비와 생산 (Responsible Consumption and Production)", color: "#BF8B2E", intro: "<strong>지속가능한 소비와 생산 양식 보장</strong>을 목표로 합니다.<br>이 목표의 중심은 <strong>자원의 효율적인 사용, 폐기물 감축</strong>, 화학물질·폐기물의 <strong>안전한 관리</strong>, 기업의 지속가능경영, 그리고 <strong>녹색소비 촉진</strong> 등입니다.<br> <br>SDG 12는 생산자와 소비자가 환경에 미치는 영향을 최소화하도록 <strong>경제 시스템 전체를 전환</strong>하는 것을 강조합니다.", 
+        koreaImages: ["책임감있는소비_그린카,기아.jpg"], 
+        japanImages: ["12책임있는소비생산.jpg"] 
+        },
+       
+        { id: 13, name: "기후변화 대응 (Climate Action)", color: "#3F7E44", intro: "<strong>기후변화와 그로 인한 영향에 맞서기 위한 긴급 대응</strong>을 목표로 합니다.<br>이 목표에는 <strong>온실가스 감축, 기후 적응, 재난 회복력 강화, 기후교육과 인식 제고</strong> 등이 포함됩니다.<br> <br>SDG 13의 핵심은 지구 온도 상승을 2℃ 이하, 가능하면 <strong>1.5℃ 이내로 억제</strong>하기 위한 전 세계적인 노력입니다.", 
+        koreaImages: ["기후변화대응_원주.jpg"], 
+        japanImages: ["13탄소중립.webp"] 
+        },
+       
+        { id: 14, name: "해양 생태계 (Life Below Water)", color: "#0A97D9", intro: "<strong>지속가능발전을 위한 대양·바다·해양자원의 보전과 지속가능한 이용</strong>을 목표로 합니다.<br>이 목표는 <strong>해양오염, 과도한 어획, 해양 산성화, 해양 생태계 훼손</strong> 등 바다가 직면한 주요 이슈들을 해결하는 데 초점을 맞춥니다.<br> <br>SDG 14는 해양 생태계를 보호하고 해양 자원을 미래 세대가 이용할 수 있도록 <strong>지속가능하게 관리</strong>하는 것이 핵심입니다. ", 
+        koreaImages: ["해양생태계_우시산.jpg", "해양생태계_우시산 2.jpg", "해양생태계_경남은행.jpg"], 
+        japanImages: ["14해양.png", "14해양2.png"] 
+        },
+       
+        { id: 15, name: "육상 생태계 (Life on Land)", color: "#56C02B", intro: "<strong>육상 생태계의 보호·복원·증진, 산림의 지속가능한 관리, 사막화 방지, 토지 황폐화 중지, 그리고 생물다양성 보전</strong>을 목표로 합니다.<br>이 목표는 숲, 습지, 산 등 육상 환경 전반의 건강성을 회복하고, 인간 활동으로 인해 훼손되는 <strong>자연 서식지를 보존</strong>하는 데 중점을 둡니다.<br>이는 <strong>멸종위기종 보호, 불법 포획·거래 근절, 토지 황폐화 복원</strong> 등 구체적인 생태계 건강성 회복 조치들을 포함합니다.<br> <br>SDG 15는 <strong>지구의 생물다양성</strong>을 유지하고 <strong>육상 생태계의 지속가능성</strong>을 보장함으로써, 인류의 생존과 지속가능발전의 <strong>환경적 토대</strong>를 마련하는 데 핵심적인 역할을 합니다.", 
+        koreaImages: ["육상생태계_밤섬지킴이.jpg", "육상생태계_밤섬지킴이 2.jpg"], 
+        japanImages: ["15육상생태계1.jpg", "15육상생태계2.png"] 
+        },
+       
+        { id: 16, name: "평화·정의·제도 (Peace, Justice and Strong Institutions)", color: "#00689D", intro: "<strong>지속가능발전을 위한 평화롭고 포용적인 사회 증진, 모두에게 정의에 대한 접근 보장, 모든 단계에서 효과적이고 책임감 있는 제도 구축</strong>을 목표로 합니다.<br>이 목표는 <strong>모든 형태의 폭력 감소</strong>를 핵심으로 하며, 법치주의 강화, <strong>투명하고 책임감 있는 제도</strong> 구축, 그리고 <strong>부패 및 뇌물 수수 감소</strong>를 통해 사회 전반의 공정성과 신뢰를 높이는 것을 지향합니다.<br> <br>SDG 16은 다른 모든 지속가능발전 목표를 달성하기 위한 <strong>법적·제도적·사회적 환경을 조성</strong>하는 데 중요한 역할을 합니다.", 
+        koreaImages: ["https://placehold.co/600x400/a7f3d0/15803d?text=Korea+Example+16-1"], 
+        japanImages: ["16_1.jpg", "16_2.jpg"] 
+        },
+       
+        { id: 17, name: "파트너십 (Partnerships for the Goals)", color: "#19486A", intro: "<strong>이행수단 강화와 지속가능발전을 위한 글로벌 파트너십 활성화</strong>를 목표로 합니다.<br>이 목표는 <strong>각 나라·도시·기업·시민사회가 협력하지 않으면 SDGs는 달성될 수 없다</strong>는 전제에서 출발합니다.<br>따라서 <strong>재원 조달</strong>, 기술 이전, 역량 강화, 무역 및 </strong>글로벌 시스템 개선</strong>을 통해 전 세계적인 협력 체계를 구축하는 것이 핵심입니다.<br> <br>SDG 17은 모든 SDG 목표를 실현하기 위한 <strong>자원과 수단</strong>을 동원하고 <strong>범세계적인 협력 네트워크</strong>를 강화하는 데 중요한 역할을 합니다.", 
+        koreaImages: ["파트너십_한국릴리.jpg", "파트너십_한솔제지.jpg"], 
+        japanImages: ["17파트너십.jpg"] 
+        }
+    ];
+
+    function initGallery(containerId, images) {
+        const container = document.getElementById(containerId);
+        if (!container || !images || images.length === 0) {
+            if (container) container.style.display = 'none';
+            return;
+        }
+
+        const mainImage = container.querySelector('.gallery-image');
+        const prevBtn = container.querySelector('.prev-btn');
+        const nextBtn = container.querySelector('.next-btn');
+        const dotsContainer = container.querySelector('.gallery-dots');
+        
+        let currentIndex = 0;
+        let dots = [];
+
+        dotsContainer.innerHTML = '';
+        images.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot';
+            dot.addEventListener('click', () => showImage(index));
+            dotsContainer.appendChild(dot);
+            dots.push(dot);
+        });
+
+        function showImage(index) {
+            mainImage.style.opacity = '0';
+            setTimeout(() => {
+                mainImage.src = images[index];
+                mainImage.style.opacity = '1';
+            }, 150); 
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentIndex = index;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            const newIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(newIndex);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const newIndex = (currentIndex + 1) % images.length;
+            showImage(newIndex);
+        });
+
+        showImage(0);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        let goalId = parseInt(urlParams.get('id'));
+
+        if (isNaN(goalId)) {
+            const fileNameMatch = window.location.pathname.match(/SDGs(\d+)/i);
+            if (fileNameMatch) {
+                goalId = parseInt(fileNameMatch[1]);
+            }
+        }
+
+        if (isNaN(goalId)) {
+            goalId = 1;
+        }
+
+        const goalData = sdgData.find(sdg => sdg.id === goalId);
+
+        if (!goalData) {
+            console.error(`해당 ID(${goalId})의 SDG 데이터를 찾을 수 없습니다.`);
+            document.getElementById('sdg-goal-name').textContent = "목표를 찾을 수 없음";
+            return;
+        }
+
+        
+        document.title = `${goalData.name} - SDGs 아카이빙`;
+
+        const goalIdEl = document.getElementById('sdg-goal-id');
+        goalIdEl.textContent = `GOAL ${goalData.id}`;
+        goalIdEl.style.color = goalData.color; 
+
+        const goalNameEl = document.getElementById('sdg-goal-name');
+        goalNameEl.textContent = goalData.name;
+        
+        const section1Title = document.getElementById('section-1-title');
+        section1Title.textContent = `${goalData.name}이란?`;
+        
+        const section1Content = document.getElementById('section-1-content');
+        section1Content.innerHTML = goalData.intro + " ";
+    
+        initGallery('korea-gallery', goalData.koreaImages);
+        initGallery('japan-gallery', goalData.japanImages);
+    });
+
+</script>
+</body>
+</html>
